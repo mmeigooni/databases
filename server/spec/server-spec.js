@@ -11,7 +11,7 @@ describe('Persistent Node Chat Server', function() {
 
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
-      user: 'student',
+      user: 'root',
       password: SQLAUTH,
       database: 'chat'
     });
@@ -68,7 +68,7 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-    var queryString = "INSERT INTO messages VALUES (null, 'quinn is kinda AMAZING', null, 1, 2)";
+    var queryString = "INSERT INTO messages VALUES (null, 'quinn is kinda AMAZING', null, 1, 'theChat')";
     var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
@@ -82,7 +82,7 @@ describe('Persistent Node Chat Server', function() {
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
         var messageLog = JSON.parse(body);
         expect(messageLog[0].messageText).to.equal('quinn is kinda AMAZING');
-        expect(messageLog[0].roomname).to.equal('2');
+        expect(messageLog[0].roomname).to.equal('theChat');
         done();
       });
     });
