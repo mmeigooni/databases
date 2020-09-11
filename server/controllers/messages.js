@@ -12,6 +12,7 @@ module.exports = {
       });
   }, // a function which handles a get request for all messages
   post: function (req, res) {
+    console.log(`requestbody: ${req.body}`);
     models.create(req.body)
       .then((results) => {
         // may need to send headers

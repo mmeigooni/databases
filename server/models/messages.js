@@ -39,7 +39,7 @@ var db = require('../db');
 // Return a new promise that initiates a sql query that will INSERT into messages and need to add correct foreign key on username SELECT id FROM ...
 
 module.exports = {
-  getAllAsync: function () {
+  getAll: function () {
     return new Promise((resolve, reject) => {
       db.query('SELECT messages.messageText, messages.createdAt, messages.roomname, users.username FROM messages INNER JOIN users ON messages.idUsers=users.id', (err, messages) => {
         if (err) {
@@ -49,11 +49,13 @@ module.exports = {
         }
       });
     });
-
   }, // a function which produces all the messages
   create: function (newMessage) {
+    console.log(`newMessage: ${newMessage}`);
     return new Promise((resolve, reject) => {
-      db.query(`INSERT INTO messages (null, ${newMessage.message}, null, SELECT id FROM users WHERE username = ${newMessage.username}, ${newMessage.roomname}`, (err, results) => {
+      let queryString = `INSERT INTO messages (null, ${newMessage.message}, null, SELECT id FROM users WHERE username = ${newMessage.username}, ${newMessage.roomname}`;
+      console.log(`querySTring: ${queryString}`);
+      db.query(queryString, (err, results) => {
         if (err) {
           reject(err);
         } else {

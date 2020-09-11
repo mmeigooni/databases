@@ -1,18 +1,17 @@
 /* You'll need to have MySQL running and your Node server running
  * for these tests to pass. */
 
-import SQLAUTH from '../sqlAuth.js';
+var password = require('../sqlAuth.js');
 var mysql = require('mysql');
 var request = require('request'); // You might need to npm install the request module!
 var expect = require('chai').expect;
-
 describe('Persistent Node Chat Server', function() {
   var dbConnection;
 
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
       user: 'root',
-      password: SQLAUTH,
+      password: password.SQLPASSWORD,
       database: 'chat'
     });
     dbConnection.connect();
